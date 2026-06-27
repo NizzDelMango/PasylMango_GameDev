@@ -1,6 +1,5 @@
 ﻿using UdonSharp;
 using UnityEngine;
-using VRC.SDKBase;
 
 public class SalvageItem : UdonSharpBehaviour
 {
@@ -8,6 +7,8 @@ public class SalvageItem : UdonSharpBehaviour
     public string itemName;
     public int sellPrice = 10;
     public bool canDecorate = true;
+
+    public SalvageRespawner respawner;
 
     [HideInInspector] public bool isPlaced;
 }

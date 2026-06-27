@@ -1,5 +1,6 @@
 ﻿using UdonSharp;
 using UnityEngine;
+using VRC.SDKBase;
 
 public class SellBox : UdonSharpBehaviour
 {
@@ -32,6 +33,22 @@ public class SellBox : UdonSharpBehaviour
         Debug.Log("[SellBox] 판매 성공: " + item.itemName + " / 가격: " + item.sellPrice);
 
         moneyManager.AddMoney(item.sellPrice);
+
+        VRC_Pickup pickup = other.gameObject.GetComponent<VRC_Pickup>();
+
+        if (pickup != null)
+        {
+            pickup.Drop();
+        }
+
+        if (item.respawner != null)
+        {
+            item.respawner.RespawnLater();
+        }
+        else
+        {
+            Debug.Log("[SellBox] respawner가 없는 아이템. 리스폰 없음: " + item.itemName);
+        }
 
         other.gameObject.SetActive(false);
     }
