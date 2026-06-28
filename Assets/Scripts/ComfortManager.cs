@@ -27,6 +27,11 @@ public class ComfortManager : UdonSharpBehaviour
         RefreshUI();
     }
 
+    public bool HasComfort(int requiredAmount)
+    {
+        return comfortScore >= requiredAmount;
+    }
+
     private void RefreshUI()
     {
         if (comfortText != null)
