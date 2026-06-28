@@ -8,6 +8,7 @@ public class ItemInfoDisplay : UdonSharpBehaviour
     public TextMeshProUGUI nameText;
     public TextMeshProUGUI priceText;
     public TextMeshProUGUI decorateText;
+    public TextMeshProUGUI rarityText;
 
     private SalvageItem currentItem;
 
@@ -53,6 +54,11 @@ public class ItemInfoDisplay : UdonSharpBehaviour
             }
         }
 
+        if (rarityText != null)
+        {
+            rarityText.text = "등급: " + GetRarityName(item.rarity);
+        }
+
         Debug.Log("[ItemInfoDisplay] 표시: " + item.itemName);
     }
 
@@ -71,5 +77,35 @@ public class ItemInfoDisplay : UdonSharpBehaviour
         {
             panelObject.SetActive(false);
         }
+    }
+
+    private string GetRarityName(int rarity)
+    {
+        if (rarity == 0)
+        {
+            return "일반";
+        }
+
+        if (rarity == 1)
+        {
+            return "희귀";
+        }
+
+        if (rarity == 2)
+        {
+            return "고급";
+        }
+
+        if (rarity == 3)
+        {
+            return "감성품";
+        }
+
+        if (rarity == 4)
+        {
+            return "재료";
+        }
+
+        return "알 수 없음";
     }
 }

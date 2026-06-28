@@ -8,6 +8,8 @@ public class SalvageItem : UdonSharpBehaviour
     public int sellPrice = 10;
     public bool canDecorate = true;
 
+    public int rarity = 0;
+
     public SalvageRespawner respawner;
 
     [HideInInspector] public bool isPlaced;
