@@ -2636,6 +2636,7 @@ MonoBehaviour:
   _udonSharpBackingUdonBehaviour: {fileID: 507320199}
   snapPoint: {fileID: 939041726}
   comfortManager: {fileID: 996139277}
+  feedbackDisplay: {fileID: 1279432652}
   occupied: 0
 --- !u!65 &507320201
 BoxCollider:
@@ -2743,6 +2744,7 @@ MonoBehaviour:
   _udonSharpBackingUdonBehaviour: {fileID: 517249364}
   snapPoint: {fileID: 481322155}
   comfortManager: {fileID: 996139277}
+  feedbackDisplay: {fileID: 1279432652}
   occupied: 0
 --- !u!65 &517249366
 BoxCollider:
@@ -7198,6 +7200,7 @@ MonoBehaviour:
   _udonSharpBackingUdonBehaviour: {fileID: 1381107247}
   snapPoint: {fileID: 391128370}
   comfortManager: {fileID: 996139277}
+  feedbackDisplay: {fileID: 1279432652}
   occupied: 0
 --- !u!65 &1381107249
 BoxCollider:

@@ -6,6 +6,7 @@ public class DecorationSlot : UdonSharpBehaviour
 {
     public Transform snapPoint;
     public ComfortManager comfortManager;
+    public FeedbackMessageDisplay feedbackDisplay;
 
     public bool occupied;
 
@@ -13,6 +14,7 @@ public class DecorationSlot : UdonSharpBehaviour
     {
         if (occupied)
         {
+            ShowFeedback("이 슬롯은 이미 사용 중입니다.");
             Debug.Log("[DecorationSlot] 이미 사용 중인 슬롯");
             return;
         }
@@ -27,18 +29,28 @@ public class DecorationSlot : UdonSharpBehaviour
 
         if (!item.canDecorate)
         {
+            ShowFeedback("장식할 수 없는 아이템입니다: " + item.itemName);
             Debug.Log("[DecorationSlot] 장식 불가능한 아이템: " + item.itemName);
             return;
         }
 
         if (item.isPlaced)
         {
+            ShowFeedback("이미 배치된 아이템입니다: " + item.itemName);
             Debug.Log("[DecorationSlot] 이미 배치된 아이템: " + item.itemName);
+            return;
+        }
+
+        if (item.isInInventory)
+        {
+            ShowFeedback("가방에 들어간 아이템은 장식할 수 없습니다.");
+            Debug.Log("[DecorationSlot] 가방에 들어간 아이템: " + item.itemName);
             return;
         }
 
         if (snapPoint == null)
         {
+            ShowFeedback("장식 위치가 연결되지 않았습니다.");
             Debug.Log("[DecorationSlot] snapPoint가 연결되지 않음");
             return;
         }
@@ -76,6 +88,16 @@ public class DecorationSlot : UdonSharpBehaviour
             comfortManager.AddComfort(item.comfortValue);
         }
 
+        ShowFeedback("장식 완료: " + item.itemName);
+
         Debug.Log("[DecorationSlot] 배치 성공: " + item.itemName);
+    }
+
+    private void ShowFeedback(string message)
+    {
+        if (feedbackDisplay != null)
+        {
+            feedbackDisplay.ShowMessage(message);
+        }
     }
 }
