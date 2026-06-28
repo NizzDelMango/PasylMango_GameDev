@@ -19,17 +19,31 @@ public class SellBox : UdonSharpBehaviour
             return;
         }
 
-        if (item.isBeingSold)
+        if (item.IsBeingSold())
         {
             ShowFeedback("이미 판매 처리 중인 아이템입니다.");
             Debug.Log("[SellBox] 이미 판매 처리 중인 아이템: " + item.itemName);
             return;
         }
 
-        if (item.isPlaced)
+        if (item.IsPlaced())
         {
             ShowFeedback("장식된 아이템은 판매할 수 없습니다.");
             Debug.Log("[SellBox] 이미 장식된 아이템이라 판매 안 함");
+            return;
+        }
+
+        if (item.IsInInventory())
+        {
+            ShowFeedback("가방에 들어간 아이템은 직접 판매할 수 없습니다.");
+            Debug.Log("[SellBox] 가방에 들어간 아이템이라 직접 판매 안 함: " + item.itemName);
+            return;
+        }
+
+        if (item.sellPrice <= 0)
+        {
+            ShowFeedback("판매가가 올바르지 않은 아이템입니다.");
+            Debug.Log("[SellBox] sellPrice <= 0: " + item.itemName + " / 가격: " + item.sellPrice);
             return;
         }
 
@@ -40,7 +54,7 @@ public class SellBox : UdonSharpBehaviour
             return;
         }
 
-        item.isBeingSold = true;
+        item.MarkSelling();
 
         Debug.Log("[SellBox] 판매 성공: " + item.itemName + " / 가격: " + item.sellPrice);
 

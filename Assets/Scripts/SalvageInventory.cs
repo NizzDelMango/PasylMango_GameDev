@@ -44,6 +44,11 @@ public class SalvageInventory : UdonSharpBehaviour
     {
         lastStoreFailMessage = "";
 
+        if (maxStoredItems <= 0)
+        {
+            maxStoredItems = 1;
+        }
+
         if (storedItems == null)
         {
             storedItems = new SalvageItem[maxStoredItems];
@@ -63,17 +68,24 @@ public class SalvageInventory : UdonSharpBehaviour
             return false;
         }
 
-        if (item.isPlaced)
+        if (item.IsPlaced())
         {
             lastStoreFailMessage = "장식된 아이템은 보관할 수 없습니다.";
             Debug.Log("[SalvageInventory] 장식된 아이템은 보관 불가: " + item.itemName);
             return false;
         }
 
-        if (item.isInInventory)
+        if (item.IsInInventory())
         {
             lastStoreFailMessage = "이미 가방에 들어간 아이템입니다.";
             Debug.Log("[SalvageInventory] 이미 가방에 들어간 아이템: " + item.itemName);
+            return false;
+        }
+
+        if (item.IsBeingSold())
+        {
+            lastStoreFailMessage = "이미 처리 중인 아이템입니다.";
+            Debug.Log("[SalvageInventory] 이미 처리 중인 아이템: " + item.itemName);
             return false;
         }
 
@@ -87,9 +99,7 @@ public class SalvageInventory : UdonSharpBehaviour
         }
 
         storedItems[slotIndex] = item;
-
-        item.isInInventory = true;
-        item.isBeingSold = true;
+        item.MarkStored();
 
         itemCount += 1;
         totalSellValue += item.sellPrice;
@@ -147,15 +157,15 @@ public class SalvageInventory : UdonSharpBehaviour
 
             if (item == null) continue;
 
+            item.MarkSelling();
+
             if (item.respawner != null)
             {
                 item.respawner.RespawnLater();
             }
             else
             {
-                item.isInInventory = false;
-                item.isBeingSold = false;
-
+                item.ResetState();
                 Debug.Log("[SalvageInventory] respawner 없는 아이템: " + item.itemName);
             }
 

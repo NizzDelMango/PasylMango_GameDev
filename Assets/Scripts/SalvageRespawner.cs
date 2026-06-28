@@ -10,6 +10,11 @@ public class SalvageRespawner : UdonSharpBehaviour
 
     public void RespawnLater()
     {
+        if (respawnDelay < 0f)
+        {
+            respawnDelay = 0f;
+        }
+
         Debug.Log("[SalvageRespawner] 리스폰 예약: " + respawnDelay + "초");
 
         SendCustomEventDelayedSeconds("RespawnNow", respawnDelay);
@@ -52,9 +57,7 @@ public class SalvageRespawner : UdonSharpBehaviour
 
         if (item != null)
         {
-            item.isPlaced = false;
-            item.isBeingSold = false;
-            item.isInInventory = false;
+            item.ResetState();
         }
 
         itemObject.SetActive(true);

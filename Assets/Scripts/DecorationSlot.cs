@@ -34,17 +34,24 @@ public class DecorationSlot : UdonSharpBehaviour
             return;
         }
 
-        if (item.isPlaced)
+        if (item.IsPlaced())
         {
             ShowFeedback("이미 배치된 아이템입니다: " + item.itemName);
             Debug.Log("[DecorationSlot] 이미 배치된 아이템: " + item.itemName);
             return;
         }
 
-        if (item.isInInventory)
+        if (item.IsInInventory())
         {
             ShowFeedback("가방에 들어간 아이템은 장식할 수 없습니다.");
             Debug.Log("[DecorationSlot] 가방에 들어간 아이템: " + item.itemName);
+            return;
+        }
+
+        if (item.IsBeingSold())
+        {
+            ShowFeedback("이미 처리 중인 아이템은 장식할 수 없습니다.");
+            Debug.Log("[DecorationSlot] 이미 처리 중인 아이템: " + item.itemName);
             return;
         }
 
@@ -80,7 +87,7 @@ public class DecorationSlot : UdonSharpBehaviour
         itemObject.transform.position = snapPoint.position;
         itemObject.transform.rotation = snapPoint.rotation;
 
-        item.isPlaced = true;
+        item.MarkPlaced();
         occupied = true;
 
         if (comfortManager != null)
