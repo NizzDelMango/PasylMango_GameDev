@@ -5436,6 +5436,7 @@ MonoBehaviour:
     SerializationNodes: []
   _udonSharpBackingUdonBehaviour: {fileID: 991964126}
   inventory: {fileID: 1001860248}
+  feedbackDisplay: {fileID: 0}
 --- !u!65 &991964128
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -5635,6 +5636,7 @@ MonoBehaviour:
   maxStoredItems: 20
   inventoryText: {fileID: 1752255954}
   inventoryListText: {fileID: 1670845812}
+  lastStoreFailMessage: 
 --- !u!114 &1001860249
 MonoBehaviour:
   m_ObjectHideFlags: 2
@@ -6110,6 +6112,7 @@ MonoBehaviour:
     SerializationNodes: []
   _udonSharpBackingUdonBehaviour: {fileID: 1234154395}
   inventory: {fileID: 1001860248}
+  feedbackDisplay: {fileID: 0}
 --- !u!65 &1234154397
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -7593,6 +7596,7 @@ MonoBehaviour:
     SerializationNodes: []
   _udonSharpBackingUdonBehaviour: {fileID: 1498085886}
   inventory: {fileID: 1001860248}
+  feedbackDisplay: {fileID: 1279432652}
 --- !u!65 &1498085888
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -9098,6 +9102,7 @@ MonoBehaviour:
     SerializationNodes: []
   _udonSharpBackingUdonBehaviour: {fileID: 1827787500}
   moneyManager: {fileID: 886491622}
+  feedbackDisplay: {fileID: 1279432652}
 --- !u!65 &1827787502
 BoxCollider:
   m_ObjectHideFlags: 0

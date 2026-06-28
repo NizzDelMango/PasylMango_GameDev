@@ -5,6 +5,7 @@ using VRC.SDKBase;
 public class SellBox : UdonSharpBehaviour
 {
     public MoneyManager moneyManager;
+    public FeedbackMessageDisplay feedbackDisplay;
 
     public void OnTriggerEnter(Collider other)
     {
@@ -20,18 +21,21 @@ public class SellBox : UdonSharpBehaviour
 
         if (item.isBeingSold)
         {
+            ShowFeedback("이미 판매 처리 중인 아이템입니다.");
             Debug.Log("[SellBox] 이미 판매 처리 중인 아이템: " + item.itemName);
             return;
         }
 
         if (item.isPlaced)
         {
+            ShowFeedback("장식된 아이템은 판매할 수 없습니다.");
             Debug.Log("[SellBox] 이미 장식된 아이템이라 판매 안 함");
             return;
         }
 
         if (moneyManager == null)
         {
+            ShowFeedback("정화칩 관리자가 연결되지 않았습니다.");
             Debug.Log("[SellBox] moneyManager가 연결되지 않음");
             return;
         }
@@ -59,5 +63,15 @@ public class SellBox : UdonSharpBehaviour
         }
 
         other.gameObject.SetActive(false);
+
+        ShowFeedback("판매 완료: " + item.itemName + " +" + item.sellPrice);
+    }
+
+    private void ShowFeedback(string message)
+    {
+        if (feedbackDisplay != null)
+        {
+            feedbackDisplay.ShowMessage(message);
+        }
     }
 }
