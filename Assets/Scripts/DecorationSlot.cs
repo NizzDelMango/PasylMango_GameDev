@@ -10,11 +10,14 @@ public class DecorationSlot : UdonSharpBehaviour
 
     public bool occupied;
 
+    private GameObject placedItemObject;
+    private SalvageItem placedItem;
+
     public void OnTriggerEnter(Collider other)
     {
         if (occupied)
         {
-            ShowFeedback("이 슬롯은 이미 사용 중입니다.");
+            ShowFeedback("이 슬롯은 이미 사용 중입니다. 슬롯을 상호작용하면 회수할 수 있습니다.");
             Debug.Log("[DecorationSlot] 이미 사용 중인 슬롯");
             return;
         }
@@ -65,6 +68,18 @@ public class DecorationSlot : UdonSharpBehaviour
         PlaceItem(other.gameObject, item);
     }
 
+    public override void Interact()
+    {
+        if (!occupied)
+        {
+            ShowFeedback("회수할 장식이 없습니다.");
+            Debug.Log("[DecorationSlot] 회수할 장식 없음");
+            return;
+        }
+
+        RemovePlacedItem();
+    }
+
     private void PlaceItem(GameObject itemObject, SalvageItem item)
     {
         VRC_Pickup pickup = itemObject.GetComponent<VRC_Pickup>();
@@ -88,6 +103,9 @@ public class DecorationSlot : UdonSharpBehaviour
         itemObject.transform.rotation = snapPoint.rotation;
 
         item.MarkPlaced();
+
+        placedItemObject = itemObject;
+        placedItem = item;
         occupied = true;
 
         if (comfortManager != null)
@@ -98,6 +116,93 @@ public class DecorationSlot : UdonSharpBehaviour
         ShowFeedback("장식 완료: " + item.itemName);
 
         Debug.Log("[DecorationSlot] 배치 성공: " + item.itemName);
+    }
+
+    private void RemovePlacedItem()
+    {
+        if (placedItemObject == null || placedItem == null)
+        {
+            placedItemObject = null;
+            placedItem = null;
+            occupied = false;
+
+            ShowFeedback("장식 슬롯 상태를 초기화했습니다.");
+            Debug.Log("[DecorationSlot] 배치 정보 없음 / 슬롯 초기화");
+            return;
+        }
+
+        if (comfortManager != null)
+        {
+            comfortManager.RemoveComfort(placedItem.comfortValue);
+        }
+
+        placedItem.ResetState();
+
+        placedItemObject.SetActive(true);
+
+        Vector3 releasePosition = GetReleasePosition();
+        Quaternion releaseRotation = GetReleaseRotation();
+
+        placedItemObject.transform.position = releasePosition;
+        placedItemObject.transform.rotation = releaseRotation;
+
+        Rigidbody rb = placedItemObject.GetComponent<Rigidbody>();
+
+        if (rb != null)
+        {
+            rb.velocity = Vector3.zero;
+            rb.angularVelocity = Vector3.zero;
+            rb.isKinematic = false;
+        }
+
+        VRC_Pickup pickup = placedItemObject.GetComponent<VRC_Pickup>();
+
+        if (pickup != null)
+        {
+            pickup.pickupable = true;
+        }
+
+        ShowFeedback("장식 회수: " + placedItem.itemName);
+
+        Debug.Log("[DecorationSlot] 장식 회수 완료: " + placedItem.itemName);
+
+        placedItemObject = null;
+        placedItem = null;
+        occupied = false;
+    }
+
+    private Vector3 GetReleasePosition()
+    {
+        VRCPlayerApi localPlayer = Networking.LocalPlayer;
+
+        if (localPlayer != null)
+        {
+            return localPlayer.GetPosition() + localPlayer.GetRotation() * Vector3.forward * 0.8f + Vector3.up * 0.6f;
+        }
+
+        if (snapPoint != null)
+        {
+            return snapPoint.position + snapPoint.forward * 0.8f + Vector3.up * 0.2f;
+        }
+
+        return transform.position + transform.forward * 0.8f + Vector3.up * 0.2f;
+    }
+
+    private Quaternion GetReleaseRotation()
+    {
+        VRCPlayerApi localPlayer = Networking.LocalPlayer;
+
+        if (localPlayer != null)
+        {
+            return localPlayer.GetRotation();
+        }
+
+        if (snapPoint != null)
+        {
+            return snapPoint.rotation;
+        }
+
+        return transform.rotation;
     }
 
     private void ShowFeedback(string message)
