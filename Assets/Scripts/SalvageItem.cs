@@ -9,6 +9,7 @@ public class SalvageItem : UdonSharpBehaviour
     public bool canDecorate = true;
 
     public int rarity = 0;
+    public int comfortValue = 1;
 
     public SalvageRespawner respawner;
 

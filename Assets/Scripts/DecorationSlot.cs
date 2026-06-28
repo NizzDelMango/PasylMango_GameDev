@@ -5,6 +5,8 @@ using VRC.SDKBase;
 public class DecorationSlot : UdonSharpBehaviour
 {
     public Transform snapPoint;
+    public ComfortManager comfortManager;
+
     public bool occupied;
 
     public void OnTriggerEnter(Collider other)
@@ -68,6 +70,11 @@ public class DecorationSlot : UdonSharpBehaviour
 
         item.isPlaced = true;
         occupied = true;
+
+        if (comfortManager != null)
+        {
+            comfortManager.AddComfort(item.comfortValue);
+        }
 
         Debug.Log("[DecorationSlot] 배치 성공: " + item.itemName);
     }
