@@ -5,6 +5,7 @@ using VRC.SDKBase;
 public class InventoryDepositBox : UdonSharpBehaviour
 {
     public SalvageInventory inventory;
+    public FeedbackMessageDisplay feedbackDisplay;
 
     public void OnTriggerEnter(Collider other)
     {
@@ -12,6 +13,7 @@ public class InventoryDepositBox : UdonSharpBehaviour
 
         if (inventory == null)
         {
+            ShowFeedback("가방 관리자가 연결되지 않았습니다.");
             Debug.Log("[InventoryDepositBox] inventory가 연결되지 않음");
             return;
         }
@@ -26,6 +28,7 @@ public class InventoryDepositBox : UdonSharpBehaviour
 
         if (item.isBeingSold)
         {
+            ShowFeedback("이미 처리 중인 아이템입니다.");
             Debug.Log("[InventoryDepositBox] 이미 처리 중인 아이템: " + item.itemName);
             return;
         }
@@ -34,6 +37,14 @@ public class InventoryDepositBox : UdonSharpBehaviour
 
         if (!stored)
         {
+            string failMessage = inventory.GetLastStoreFailMessage();
+
+            if (failMessage == null || failMessage == "")
+            {
+                failMessage = "아이템을 보관할 수 없습니다.";
+            }
+
+            ShowFeedback(failMessage);
             return;
         }
 
@@ -45,5 +56,15 @@ public class InventoryDepositBox : UdonSharpBehaviour
         }
 
         other.gameObject.SetActive(false);
+
+        ShowFeedback("가방에 보관했습니다: " + item.itemName);
+    }
+
+    private void ShowFeedback(string message)
+    {
+        if (feedbackDisplay != null)
+        {
+            feedbackDisplay.ShowMessage(message);
+        }
     }
 }

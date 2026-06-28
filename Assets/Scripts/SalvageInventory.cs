@@ -12,6 +12,8 @@ public class SalvageInventory : UdonSharpBehaviour
     public TextMeshProUGUI inventoryText;
     public TextMeshProUGUI inventoryListText;
 
+    public string lastStoreFailMessage;
+
     private SalvageItem[] storedItems;
     private int itemCount;
     private int totalSellValue;
@@ -24,26 +26,32 @@ public class SalvageInventory : UdonSharpBehaviour
 
     public bool TryStoreItem(SalvageItem item)
     {
+        lastStoreFailMessage = "";
+
         if (item == null)
         {
+            lastStoreFailMessage = "보관할 아이템을 찾을 수 없습니다.";
             Debug.Log("[SalvageInventory] item이 null");
             return false;
         }
 
         if (itemCount >= capacity)
         {
+            lastStoreFailMessage = "가방이 가득 찼습니다.";
             Debug.Log("[SalvageInventory] 가방이 가득 참");
             return false;
         }
 
         if (item.isPlaced)
         {
+            lastStoreFailMessage = "장식된 아이템은 보관할 수 없습니다.";
             Debug.Log("[SalvageInventory] 장식된 아이템은 보관 불가: " + item.itemName);
             return false;
         }
 
         if (item.isInInventory)
         {
+            lastStoreFailMessage = "이미 가방에 들어간 아이템입니다.";
             Debug.Log("[SalvageInventory] 이미 가방에 들어간 아이템: " + item.itemName);
             return false;
         }
@@ -52,6 +60,7 @@ public class SalvageInventory : UdonSharpBehaviour
 
         if (slotIndex < 0)
         {
+            lastStoreFailMessage = "빈 가방 슬롯을 찾을 수 없습니다.";
             Debug.Log("[SalvageInventory] 빈 슬롯을 찾지 못함");
             return false;
         }
@@ -69,6 +78,16 @@ public class SalvageInventory : UdonSharpBehaviour
         RefreshUI();
 
         return true;
+    }
+
+    public string GetLastStoreFailMessage()
+    {
+        return lastStoreFailMessage;
+    }
+
+    public bool HasStoredItems()
+    {
+        return itemCount > 0;
     }
 
     public void SellAllStoredItems()
@@ -114,11 +133,6 @@ public class SalvageInventory : UdonSharpBehaviour
         totalSellValue = 0;
 
         RefreshUI();
-    }
-
-    public bool HasStoredItems()
-    {
-        return itemCount > 0;
     }
 
     public void IncreaseCapacity(int amount)
