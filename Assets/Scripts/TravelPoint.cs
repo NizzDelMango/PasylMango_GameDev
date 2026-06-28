@@ -11,6 +11,10 @@ public class TravelPoint : UdonSharpBehaviour
     public string areaTitle;
     public string areaSubtitle;
 
+    public AreaActivationManager areaActivationManager;
+    public GameObject areaToActivateBeforeTravel;
+    public bool deactivateAllAreasAfterTravel;
+
     public override void Interact()
     {
         if (targetPoint == null)
@@ -27,9 +31,19 @@ public class TravelPoint : UdonSharpBehaviour
             return;
         }
 
+        if (areaActivationManager != null && areaToActivateBeforeTravel != null)
+        {
+            areaActivationManager.ActivateArea(areaToActivateBeforeTravel);
+        }
+
         Debug.Log("[TravelPoint] 이동: " + travelName);
 
         localPlayer.TeleportTo(targetPoint.position, targetPoint.rotation);
+
+        if (deactivateAllAreasAfterTravel && areaActivationManager != null)
+        {
+            areaActivationManager.DeactivateAllAreas();
+        }
 
         if (areaTitleDisplay != null)
         {
