@@ -18,6 +18,12 @@ public class SellBox : UdonSharpBehaviour
             return;
         }
 
+        if (item.isBeingSold)
+        {
+            Debug.Log("[SellBox] 이미 판매 처리 중인 아이템: " + item.itemName);
+            return;
+        }
+
         if (item.isPlaced)
         {
             Debug.Log("[SellBox] 이미 장식된 아이템이라 판매 안 함");
@@ -29,6 +35,8 @@ public class SellBox : UdonSharpBehaviour
             Debug.Log("[SellBox] moneyManager가 연결되지 않음");
             return;
         }
+
+        item.isBeingSold = true;
 
         Debug.Log("[SellBox] 판매 성공: " + item.itemName + " / 가격: " + item.sellPrice);
 
