@@ -10,6 +10,7 @@ public class SalvageInventory : UdonSharpBehaviour
     public int maxStoredItems = 20;
 
     public TextMeshProUGUI inventoryText;
+    public TextMeshProUGUI inventoryListText;
 
     private SalvageItem[] storedItems;
     private int itemCount;
@@ -148,5 +149,31 @@ public class SalvageInventory : UdonSharpBehaviour
         {
             inventoryText.text = "가방: " + itemCount + " / " + capacity + "\n예상 판매가: " + totalSellValue;
         }
+
+        if (inventoryListText != null)
+        {
+            inventoryListText.text = GetInventoryListText();
+        }
+    }
+
+    private string GetInventoryListText()
+    {
+        if (itemCount <= 0)
+        {
+            return "보관 중:\n- 없음";
+        }
+
+        string text = "보관 중:";
+
+        for (int i = 0; i < storedItems.Length; i++)
+        {
+            SalvageItem item = storedItems[i];
+
+            if (item == null) continue;
+
+            text += "\n- " + item.itemName;
+        }
+
+        return text;
     }
 }
