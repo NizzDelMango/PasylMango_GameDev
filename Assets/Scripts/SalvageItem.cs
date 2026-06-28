@@ -11,6 +11,8 @@ public class SalvageItem : UdonSharpBehaviour
     public int rarity = 0;
     public int comfortValue = 1;
 
+    public string description;
+
     public SalvageRespawner respawner;
 
     [HideInInspector] public bool isPlaced;

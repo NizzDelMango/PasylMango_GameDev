@@ -9,6 +9,7 @@ public class ItemInfoDisplay : UdonSharpBehaviour
     public TextMeshProUGUI priceText;
     public TextMeshProUGUI decorateText;
     public TextMeshProUGUI rarityText;
+    public TextMeshProUGUI descriptionText;
 
     private SalvageItem currentItem;
 
@@ -57,6 +58,18 @@ public class ItemInfoDisplay : UdonSharpBehaviour
         if (rarityText != null)
         {
             rarityText.text = "등급: " + GetRarityName(item.rarity);
+        }
+
+        if (descriptionText != null)
+        {
+            if (item.description == null || item.description == "")
+            {
+                descriptionText.text = "설명 없음";
+            }
+            else
+            {
+                descriptionText.text = item.description;
+            }
         }
 
         Debug.Log("[ItemInfoDisplay] 표시: " + item.itemName);
