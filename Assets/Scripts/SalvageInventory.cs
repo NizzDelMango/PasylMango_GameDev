@@ -115,6 +115,20 @@ public class SalvageInventory : UdonSharpBehaviour
         RefreshUI();
     }
 
+    public void IncreaseCapacity(int amount)
+    {
+        capacity += amount;
+
+        if (capacity > maxStoredItems)
+        {
+            capacity = maxStoredItems;
+        }
+
+        Debug.Log("[SalvageInventory] 가방 용량 증가 / 현재 용량: " + capacity);
+
+        RefreshUI();
+    }
+
     private int FindEmptySlot()
     {
         for (int i = 0; i < storedItems.Length; i++)
