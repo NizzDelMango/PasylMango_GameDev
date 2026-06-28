@@ -4354,6 +4354,7 @@ MonoBehaviour:
     SerializationNodes: []
   _udonSharpBackingUdonBehaviour: {fileID: 845735127}
   comfortManager: {fileID: 996139277}
+  feedbackDisplay: {fileID: 1279432652}
   requiredComfort: 5
   objectToUnlock: {fileID: 1849246857}
   objectToDisableAfterUnlock: {fileID: 845735125}
@@ -4514,6 +4515,7 @@ MonoBehaviour:
     SerializationNodes: []
   _udonSharpBackingUdonBehaviour: {fileID: 871687203}
   inventory: {fileID: 1001860248}
+  feedbackDisplay: {fileID: 1279432652}
 --- !u!65 &871687205
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -9736,6 +9738,7 @@ MonoBehaviour:
     SerializationNodes: []
   _udonSharpBackingUdonBehaviour: {fileID: 1926937767}
   moneyManager: {fileID: 886491622}
+  feedbackDisplay: {fileID: 1279432652}
   price: 1
   objectToUnlock: {fileID: 1315004994}
   objectToDisableAfterPurchase: {fileID: 1926937765}
@@ -9928,6 +9931,7 @@ MonoBehaviour:
   _udonSharpBackingUdonBehaviour: {fileID: 2001522843}
   moneyManager: {fileID: 886491622}
   inventory: {fileID: 1001860248}
+  feedbackDisplay: {fileID: 1279432652}
   price: 10
   capacityIncrease: 2
   objectToDisableAfterPurchase: {fileID: 2001522841}

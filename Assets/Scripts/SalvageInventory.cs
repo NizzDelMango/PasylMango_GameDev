@@ -116,6 +116,11 @@ public class SalvageInventory : UdonSharpBehaviour
         RefreshUI();
     }
 
+    public bool HasStoredItems()
+    {
+        return itemCount > 0;
+    }
+
     public void IncreaseCapacity(int amount)
     {
         capacity += amount;
