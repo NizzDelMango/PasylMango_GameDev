@@ -41,4 +41,14 @@ public class ExplorationAreaInfoSign : UdonSharpBehaviour
 
         Debug.Log("[ExplorationAreaInfoSign] 안내판 갱신: " + areaTitle);
     }
+
+    public void SetUnlocked()
+    {
+        statusText = "이동 가능";
+        unlockConditionText = "";
+
+        RefreshSign();
+
+        Debug.Log("[ExplorationAreaInfoSign] 해금 상태로 변경: " + areaTitle);
+    }
 }

@@ -15,6 +15,8 @@ public class ExplorationAreaUnlockButton : UdonSharpBehaviour
     public GameObject objectToUnlock;
     public GameObject objectToDisableAfterUnlock;
 
+    public ExplorationAreaInfoSign signToUpdateAfterUnlock;
+
     public bool unlocked;
 
     public override void Interact()
@@ -66,6 +68,11 @@ public class ExplorationAreaUnlockButton : UdonSharpBehaviour
         unlocked = true;
 
         objectToUnlock.SetActive(true);
+
+        if (signToUpdateAfterUnlock != null)
+        {
+            signToUpdateAfterUnlock.SetUnlocked();
+        }
 
         if (objectToDisableAfterUnlock != null)
         {
