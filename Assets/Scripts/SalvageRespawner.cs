@@ -8,12 +8,56 @@ public class SalvageRespawner : UdonSharpBehaviour
     public Transform spawnPoint;
     public float respawnDelay = 10f;
 
+    private Vector3 cachedSpawnPosition;
+    private Quaternion cachedSpawnRotation;
+    private bool hasCachedSpawn;
+    private bool respawnScheduled;
+
+    private void Start()
+    {
+        CacheSpawnPoint();
+    }
+
+    private void CacheSpawnPoint()
+    {
+        if (spawnPoint != null)
+        {
+            cachedSpawnPosition = spawnPoint.position;
+            cachedSpawnRotation = spawnPoint.rotation;
+            hasCachedSpawn = true;
+
+            Debug.Log("[SalvageRespawner] 스폰 위치 캐시 완료: " + spawnPoint.name);
+            return;
+        }
+
+        if (itemObject != null)
+        {
+            cachedSpawnPosition = itemObject.transform.position;
+            cachedSpawnRotation = itemObject.transform.rotation;
+            hasCachedSpawn = true;
+
+            Debug.Log("[SalvageRespawner] spawnPoint 없음 / itemObject 현재 위치를 스폰 위치로 캐시: " + itemObject.name);
+            return;
+        }
+
+        hasCachedSpawn = false;
+        Debug.Log("[SalvageRespawner] 스폰 위치 캐시 실패");
+    }
+
     public void RespawnLater()
     {
+        if (respawnScheduled)
+        {
+            Debug.Log("[SalvageRespawner] 이미 리스폰 예약됨");
+            return;
+        }
+
         if (respawnDelay < 0f)
         {
             respawnDelay = 0f;
         }
+
+        respawnScheduled = true;
 
         Debug.Log("[SalvageRespawner] 리스폰 예약: " + respawnDelay + "초");
 
@@ -22,20 +66,27 @@ public class SalvageRespawner : UdonSharpBehaviour
 
     public void RespawnNow()
     {
+        respawnScheduled = false;
+
         if (itemObject == null)
         {
             Debug.Log("[SalvageRespawner] itemObject가 연결되지 않음");
             return;
         }
 
-        if (spawnPoint == null)
+        if (!hasCachedSpawn)
         {
-            Debug.Log("[SalvageRespawner] spawnPoint가 연결되지 않음");
+            CacheSpawnPoint();
+        }
+
+        if (!hasCachedSpawn)
+        {
+            Debug.Log("[SalvageRespawner] 캐시된 스폰 위치가 없음");
             return;
         }
 
-        itemObject.transform.position = spawnPoint.position;
-        itemObject.transform.rotation = spawnPoint.rotation;
+        itemObject.transform.position = cachedSpawnPosition;
+        itemObject.transform.rotation = cachedSpawnRotation;
 
         Rigidbody rb = itemObject.GetComponent<Rigidbody>();
 
