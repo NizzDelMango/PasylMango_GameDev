@@ -7,6 +7,10 @@ public class TravelPoint : UdonSharpBehaviour
     public Transform targetPoint;
     public string travelName = "이동";
 
+    public AreaTitleDisplay areaTitleDisplay;
+    public string areaTitle;
+    public string areaSubtitle;
+
     public override void Interact()
     {
         if (targetPoint == null)
@@ -26,5 +30,10 @@ public class TravelPoint : UdonSharpBehaviour
         Debug.Log("[TravelPoint] 이동: " + travelName);
 
         localPlayer.TeleportTo(targetPoint.position, targetPoint.rotation);
+
+        if (areaTitleDisplay != null)
+        {
+            areaTitleDisplay.ShowAreaTitle(areaTitle, areaSubtitle);
+        }
     }
 }
