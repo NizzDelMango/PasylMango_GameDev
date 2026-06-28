@@ -22,6 +22,13 @@ public class ComfortUnlockButton : UdonSharpBehaviour
             return;
         }
 
+        if (requiredComfort < 0)
+        {
+            ShowFeedback("필요 아늑함 값이 올바르지 않습니다.");
+            Debug.Log("[ComfortUnlockButton] requiredComfort < 0: " + requiredComfort);
+            return;
+        }
+
         if (comfortManager == null)
         {
             ShowFeedback("아늑함 관리자가 연결되지 않았습니다.");

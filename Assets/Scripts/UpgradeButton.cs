@@ -21,6 +21,13 @@ public class UpgradeButton : UdonSharpBehaviour
             return;
         }
 
+        if (price <= 0)
+        {
+            ShowFeedback("업그레이드 가격이 올바르지 않습니다.");
+            Debug.Log("[UpgradeButton] price <= 0: " + price);
+            return;
+        }
+
         if (moneyManager == null)
         {
             ShowFeedback("정화칩 관리자가 연결되지 않았습니다.");
@@ -48,7 +55,7 @@ public class UpgradeButton : UdonSharpBehaviour
 
         objectToUnlock.SetActive(true);
 
-        ShowFeedback("새 선반이 해금되었습니다.");
+        ShowFeedback("업그레이드가 완료되었습니다.");
 
         if (objectToDisableAfterPurchase != null)
         {

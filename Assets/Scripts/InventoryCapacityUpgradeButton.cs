@@ -23,6 +23,20 @@ public class InventoryCapacityUpgradeButton : UdonSharpBehaviour
             return;
         }
 
+        if (price <= 0)
+        {
+            ShowFeedback("가방 업그레이드 가격이 올바르지 않습니다.");
+            Debug.Log("[InventoryCapacityUpgradeButton] price <= 0: " + price);
+            return;
+        }
+
+        if (capacityIncrease <= 0)
+        {
+            ShowFeedback("가방 증가량이 올바르지 않습니다.");
+            Debug.Log("[InventoryCapacityUpgradeButton] capacityIncrease <= 0: " + capacityIncrease);
+            return;
+        }
+
         if (moneyManager == null)
         {
             ShowFeedback("돈 관리자가 연결되지 않았습니다.");
@@ -46,9 +60,9 @@ public class InventoryCapacityUpgradeButton : UdonSharpBehaviour
             return;
         }
 
-        purchased = true;
-
         inventory.IncreaseCapacity(capacityIncrease);
+
+        purchased = true;
 
         ShowFeedback("가방 용량이 증가했습니다. +" + capacityIncrease);
 

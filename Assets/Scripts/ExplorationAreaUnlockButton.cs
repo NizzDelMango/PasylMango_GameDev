@@ -36,6 +36,20 @@ public class ExplorationAreaUnlockButton : UdonSharpBehaviour
             return;
         }
 
+        if (requireMoney && price <= 0)
+        {
+            ShowFeedback("지역 해금 가격이 올바르지 않습니다.");
+            Debug.Log("[ExplorationAreaUnlockButton] price <= 0: " + price);
+            return;
+        }
+
+        if (requireComfort && requiredComfort < 0)
+        {
+            ShowFeedback("필요 아늑함 값이 올바르지 않습니다.");
+            Debug.Log("[ExplorationAreaUnlockButton] requiredComfort < 0: " + requiredComfort);
+            return;
+        }
+
         if (requireComfort)
         {
             if (comfortManager == null)
