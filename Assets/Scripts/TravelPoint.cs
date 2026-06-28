@@ -31,7 +31,12 @@ public class TravelPoint : UdonSharpBehaviour
             return;
         }
 
-        if (areaActivationManager != null && areaToActivateBeforeTravel != null)
+        if (deactivateAllAreasAfterTravel && areaToActivateBeforeTravel != null)
+        {
+            Debug.Log("[TravelPoint] deactivateAllAreasAfterTravel가 true이므로 areaToActivateBeforeTravel는 무시됨: " + travelName);
+        }
+
+        if (!deactivateAllAreasAfterTravel && areaActivationManager != null && areaToActivateBeforeTravel != null)
         {
             areaActivationManager.ActivateArea(areaToActivateBeforeTravel);
         }

@@ -22,9 +22,17 @@ public class InventorySellButton : UdonSharpBehaviour
             return;
         }
 
-        inventory.SellAllStoredItems();
+        bool success = inventory.SellAllStoredItems();
+
+        if (!success)
+        {
+            ShowFeedback("판매에 실패했습니다. 설정을 확인해주세요.");
+            Debug.Log("[InventorySellButton] 판매 실패");
+            return;
+        }
 
         ShowFeedback("가방 안 아이템을 판매했습니다.");
+        Debug.Log("[InventorySellButton] 판매 성공");
     }
 
     private void ShowFeedback(string message)

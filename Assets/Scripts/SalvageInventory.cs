@@ -20,13 +20,34 @@ public class SalvageInventory : UdonSharpBehaviour
 
     private void Start()
     {
+        if (maxStoredItems <= 0)
+        {
+            maxStoredItems = 1;
+        }
+
+        if (capacity < 0)
+        {
+            capacity = 0;
+        }
+
+        if (capacity > maxStoredItems)
+        {
+            capacity = maxStoredItems;
+        }
+
         storedItems = new SalvageItem[maxStoredItems];
+
         RefreshUI();
     }
 
     public bool TryStoreItem(SalvageItem item)
     {
         lastStoreFailMessage = "";
+
+        if (storedItems == null)
+        {
+            storedItems = new SalvageItem[maxStoredItems];
+        }
 
         if (item == null)
         {
@@ -90,18 +111,30 @@ public class SalvageInventory : UdonSharpBehaviour
         return itemCount > 0;
     }
 
-    public void SellAllStoredItems()
+    public bool SellAllStoredItems()
     {
+        if (storedItems == null)
+        {
+            Debug.Log("[SalvageInventory] 판매 실패 / storedItems가 초기화되지 않음");
+            return false;
+        }
+
         if (itemCount <= 0)
         {
             Debug.Log("[SalvageInventory] 판매할 아이템 없음");
-            return;
+            return false;
         }
 
         if (moneyManager == null)
         {
-            Debug.Log("[SalvageInventory] moneyManager가 연결되지 않음");
-            return;
+            Debug.Log("[SalvageInventory] 판매 실패 / moneyManager가 연결되지 않음");
+            return false;
+        }
+
+        if (totalSellValue <= 0)
+        {
+            Debug.Log("[SalvageInventory] 판매 실패 / totalSellValue <= 0: " + totalSellValue);
+            return false;
         }
 
         moneyManager.AddMoney(totalSellValue);
@@ -133,10 +166,18 @@ public class SalvageInventory : UdonSharpBehaviour
         totalSellValue = 0;
 
         RefreshUI();
+
+        return true;
     }
 
     public void IncreaseCapacity(int amount)
     {
+        if (amount <= 0)
+        {
+            Debug.Log("[SalvageInventory] IncreaseCapacity 실패 / amount <= 0: " + amount);
+            return;
+        }
+
         capacity += amount;
 
         if (capacity > maxStoredItems)
@@ -151,6 +192,11 @@ public class SalvageInventory : UdonSharpBehaviour
 
     private int FindEmptySlot()
     {
+        if (storedItems == null)
+        {
+            return -1;
+        }
+
         for (int i = 0; i < storedItems.Length; i++)
         {
             if (storedItems[i] == null)
@@ -183,6 +229,11 @@ public class SalvageInventory : UdonSharpBehaviour
         }
 
         string text = "보관 중:";
+
+        if (storedItems == null)
+        {
+            return text + "\n- 오류: 가방이 초기화되지 않음";
+        }
 
         for (int i = 0; i < storedItems.Length; i++)
         {

@@ -14,6 +14,12 @@ public class MoneyManager : UdonSharpBehaviour
 
     public void AddMoney(int amount)
     {
+        if (amount <= 0)
+        {
+            Debug.Log("[MoneyManager] AddMoney 실패 / amount <= 0: " + amount);
+            return;
+        }
+
         money += amount;
 
         Debug.Log("[MoneyManager] +" + amount + " 현재 돈: " + money);
@@ -23,14 +29,24 @@ public class MoneyManager : UdonSharpBehaviour
 
     public bool SpendMoney(int amount)
     {
+        if (amount <= 0)
+        {
+            Debug.Log("[MoneyManager] SpendMoney 실패 / amount <= 0: " + amount);
+            return false;
+        }
+
         if (money < amount)
         {
-            Debug.Log("[MoneyManager] 돈 부족");
+            Debug.Log("[MoneyManager] 돈 부족 / 필요 금액: " + amount + " 현재 돈: " + money);
             return false;
         }
 
         money -= amount;
+
+        Debug.Log("[MoneyManager] -" + amount + " 현재 돈: " + money);
+
         RefreshUI();
+
         return true;
     }
 
