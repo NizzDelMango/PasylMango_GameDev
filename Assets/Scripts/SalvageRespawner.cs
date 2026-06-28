@@ -54,6 +54,7 @@ public class SalvageRespawner : UdonSharpBehaviour
         {
             item.isPlaced = false;
             item.isBeingSold = false;
+            item.isInInventory = false;
         }
 
         itemObject.SetActive(true);

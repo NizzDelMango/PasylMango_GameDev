@@ -12,4 +12,5 @@ public class SalvageItem : UdonSharpBehaviour
 
     [HideInInspector] public bool isPlaced;
     [HideInInspector] public bool isBeingSold;
+    [HideInInspector] public bool isInInventory;
 }
