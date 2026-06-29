@@ -9,6 +9,7 @@ public class SalvageItemInfoTrigger : UdonSharpBehaviour
 
     public override void OnPlayerTriggerEnter(VRCPlayerApi player)
     {
+        if (player == null) return;
         if (!player.isLocal) return;
 
         if (item == null)
@@ -23,8 +24,9 @@ public class SalvageItemInfoTrigger : UdonSharpBehaviour
             return;
         }
 
-        if (item.isPlaced)
+        if (!CanShowItemInfo())
         {
+            display.HideItem(item);
             return;
         }
 
@@ -33,11 +35,42 @@ public class SalvageItemInfoTrigger : UdonSharpBehaviour
 
     public override void OnPlayerTriggerExit(VRCPlayerApi player)
     {
+        if (player == null) return;
         if (!player.isLocal) return;
 
         if (display == null) return;
         if (item == null) return;
 
         display.HideItem(item);
+    }
+
+    private bool CanShowItemInfo()
+    {
+        if (item == null)
+        {
+            return false;
+        }
+
+        if (item.IsPlaced())
+        {
+            return false;
+        }
+
+        if (item.IsInInventory())
+        {
+            return false;
+        }
+
+        if (item.IsBeingSold())
+        {
+            return false;
+        }
+
+        if (!item.gameObject.activeInHierarchy)
+        {
+            return false;
+        }
+
+        return true;
     }
 }
