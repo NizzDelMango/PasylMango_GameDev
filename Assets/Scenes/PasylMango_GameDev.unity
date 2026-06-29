@@ -379,7 +379,7 @@ GameObject:
   - component: {fileID: 62320611}
   - component: {fileID: 62320615}
   - component: {fileID: 62320614}
-  m_Layer: 0
+  m_Layer: 5
   m_Name: UI_Inventory
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -4795,7 +4795,7 @@ GameObject:
   - component: {fileID: 891244120}
   - component: {fileID: 891244119}
   - component: {fileID: 891244116}
-  m_Layer: 0
+  m_Layer: 5
   m_Name: UI_Money
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -5742,7 +5742,7 @@ GameObject:
   - component: {fileID: 1078322435}
   - component: {fileID: 1078322434}
   - component: {fileID: 1078322431}
-  m_Layer: 0
+  m_Layer: 5
   m_Name: UI_Comfort
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -6998,7 +6998,7 @@ GameObject:
   - component: {fileID: 1395539723}
   - component: {fileID: 1395539725}
   - component: {fileID: 1395539724}
-  m_Layer: 0
+  m_Layer: 5
   m_Name: ComfortText
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -7579,7 +7579,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1523912196}
-  m_Layer: 0
+  m_Layer: 5
   m_Name: TopLeft_Status
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -7719,7 +7719,7 @@ GameObject:
   - component: {fileID: 1614330134}
   - component: {fileID: 1614330136}
   - component: {fileID: 1614330135}
-  m_Layer: 0
+  m_Layer: 5
   m_Name: MoneyText
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -7991,7 +7991,7 @@ GameObject:
   - component: {fileID: 1670845811}
   - component: {fileID: 1670845813}
   - component: {fileID: 1670845812}
-  m_Layer: 0
+  m_Layer: 5
   m_Name: InventoryListText
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -8525,7 +8525,7 @@ GameObject:
   - component: {fileID: 1752255953}
   - component: {fileID: 1752255955}
   - component: {fileID: 1752255954}
-  m_Layer: 0
+  m_Layer: 5
   m_Name: InventoryText
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -11468,6 +11468,10 @@ MonoBehaviour:
     - VRC.Udon.UdonBehaviour
   - gameObject: {fileID: 984595796}
     ID: 61
+    SerializedTypeNames:
+    - VRC.Udon.UdonBehaviour
+  - gameObject: {fileID: 732371906}
+    ID: 62
     SerializedTypeNames:
     - VRC.Udon.UdonBehaviour
   portraitCameraPositionOffset: {x: 0, y: 0, z: 0}

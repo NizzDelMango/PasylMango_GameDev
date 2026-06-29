@@ -26,7 +26,7 @@ public class InventoryDepositBox : UdonSharpBehaviour
             return;
         }
 
-        if (item.isBeingSold)
+        if (item.IsBeingSold())
         {
             ShowFeedback("이미 처리 중인 아이템입니다.");
             Debug.Log("[InventoryDepositBox] 이미 처리 중인 아이템: " + item.itemName);
@@ -57,7 +57,9 @@ public class InventoryDepositBox : UdonSharpBehaviour
 
         other.gameObject.SetActive(false);
 
-        ShowFeedback("가방에 보관했습니다: " + item.itemName);
+        ShowFeedback(inventory.GetDepositSuccessMessage(item));
+
+        Debug.Log("[InventoryDepositBox] 보관 완료: " + item.itemName);
     }
 
     private void ShowFeedback(string message)

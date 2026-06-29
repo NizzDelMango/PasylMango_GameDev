@@ -121,6 +121,36 @@ public class SalvageInventory : UdonSharpBehaviour
         return itemCount > 0;
     }
 
+    public int GetItemCount()
+    {
+        return itemCount;
+    }
+
+    public int GetCapacity()
+    {
+        return capacity;
+    }
+
+    public int GetTotalSellValue()
+    {
+        return totalSellValue;
+    }
+
+    public string GetInventoryStatusText()
+    {
+        return "가방: " + itemCount + " / " + capacity + "\n예상 판매가: " + totalSellValue;
+    }
+
+    public string GetDepositSuccessMessage(SalvageItem item)
+    {
+        if (item == null)
+        {
+            return "보관 완료\n" + GetInventoryStatusText() + "\n잠수함에서 판매할 수 있습니다.";
+        }
+
+        return "보관 완료: " + item.itemName + "\n" + GetInventoryStatusText() + "\n잠수함에서 판매할 수 있습니다.";
+    }
+
     public bool SellAllStoredItems()
     {
         if (storedItems == null)
@@ -222,7 +252,7 @@ public class SalvageInventory : UdonSharpBehaviour
     {
         if (inventoryText != null)
         {
-            inventoryText.text = "가방: " + itemCount + " / " + capacity + "\n예상 판매가: " + totalSellValue;
+            inventoryText.text = GetInventoryStatusText();
         }
 
         if (inventoryListText != null)
